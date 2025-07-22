@@ -9,10 +9,10 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,jsx}'],
+    plugins: { react, },
     settings: { react: { version: 'detect' } },
     extends: [
       js.configs.recommended,
-      react,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
