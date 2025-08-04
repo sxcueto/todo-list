@@ -1,11 +1,11 @@
 
 
-function TodoListItem({ title }){
+function TodoListItem({ todo }){
     return(
 
         <div>
         <li>
-        {title}
+        {todo}
         </li>
         </div>
     );

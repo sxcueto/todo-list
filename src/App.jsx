@@ -5,11 +5,12 @@ import { useState } from 'react';
 
 function App() {
   const [todos , setTodos] = useState(TodoList);
+  
   return(
     <div>
     <h1>My Todos</h1>
-<TodoForm setTodos={setTodos}/>
-<p> </p>
+<TodoForm />
+<p>setTodos={setTodos}</p>
  <TodoList />
  
   </div>
