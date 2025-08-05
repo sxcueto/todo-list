@@ -1,7 +1,9 @@
 function TodoListItem({ todo }) {
   return (
     <div>
+    <li>
     {todo.title}
+    </li>
     </div>
   );
 }
