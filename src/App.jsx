@@ -23,7 +23,7 @@ setTodoList([...todoList,newTodo]);
     <div>
       <h1>My Todos</h1>
        <TodoForm onAddTodo={handleAddTodo} /> 
-      <TodoList todos={todoList} />
+      <TodoList todoList={todoList} />
     </div>
   );
  
