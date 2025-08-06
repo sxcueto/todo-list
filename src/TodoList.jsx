@@ -1,15 +1,12 @@
-import TodoListItem from "./TodoListItem.jsx";
+import TodoListItem from "./TodoListItem";
 
-function TodoList({ todos }) {
- 
+function TodoList({ todoList }) {
   return (
-    <div>
-      <ul>
-        {todos.map((todo) => (
-          <TodoListItem key={todo.id} todo={todo} />
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {todoList.map((todo) => (
+        <TodoListItem key={todo.id} todo={todo} />
+      ))}
+    </ul>
   );
 }
 
