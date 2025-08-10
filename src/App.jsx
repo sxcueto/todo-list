@@ -6,11 +6,6 @@ import { useState } from "react";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
-   const todos = [
-    {id: 1, title: "clean room"},
-    {id: 2, title: "take out trash"},
-    {id: 3, title: "do laundry"},
-  ];
   
   function handleAddTodo(title){
 
