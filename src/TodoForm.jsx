@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useState } from "react";
 
 function TodoForm({ onAddTodo }) {
-  const [workingTodoTitle, setWorkingTodo] = useState{""}; 
+  const [workingTodoTitle, setWorkingTodo] = useState(""); 
   const todoTitleInput = useRef("");
 
   function handleAddTodo(event) {

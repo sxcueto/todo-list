@@ -13,12 +13,11 @@ function App() {
       }
       return todo;
     });
-    
+    setTodoList(updatedTodos);
   }
 
   function handleAddTodo(title) {
-    const newTodo = { title, id: Date.now() },
-      isCompleted = false; // uses title and id as keys
+    const newTodo = { title, id: Date.now(), isCompleted: false };
 
     setTodoList([...todoList, newTodo]);
   }
