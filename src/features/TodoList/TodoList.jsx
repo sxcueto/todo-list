@@ -1,4 +1,4 @@
-import TodoListItem from "./features/TodoList/TodoListItem";
+import TodoListItem from "../TodoList/TodoListItem";
 
 
 
@@ -9,7 +9,7 @@ function TodoList({ todoList, onCompleteTodo }) {
    filteredTodoList.length === 0 ? <p>Add todo above to get started.</p> :
     <ul>
       {filteredTodoList.map((todo) => (
-        <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo}/>
+        <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={updateTodo}/>
       ))}
     </ul>
   );
