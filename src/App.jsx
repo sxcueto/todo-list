@@ -12,7 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  
+
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
@@ -25,11 +25,11 @@ function App() {
       try {
         const resp = await fetch(url, options);
         if (!resp.ok) {
-          throw new Error(resp.message);
+          throw new Error("Failed to fetch todos");
         }
         const { records } = await resp.json();
         const fetchedTodos = records.map((record) => {
-          const todo = {
+          return {
             id: record.id,
             ...record.fields,
             isCompleted: record.fields.isCompleted || false,
@@ -88,6 +88,11 @@ function App() {
   };
   async function completeTodo(id) {
     const originalTodo = todoList.find((todo) => todo.id === id);
+    if (!originalTodo) {
+      console.log("Todo not found");
+      setErrorMessage("Todo not found");
+      return;
+    }
     const payload = {
       records: [
         {
@@ -109,24 +114,31 @@ function App() {
       body: JSON.stringify(payload),
     };
 
+    setTodoList((prevTodoList) =>
+      prevTodoList.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: true } : todo
+      )
+    );
+
     try {
       const resp = await fetch(url, options);
       if (!resp.ok) throw new Error();
-
-      setTodoList((prevTodoList) =>
-        prevTodoList.map((todo) =>
-          todo.id === id ? { ...todo, isCompleted: true } : todo
-        )
-      );
     } catch (error) {
       console.log("Error completing todo:", error);
       setErrorMessage(error.message);
+      setTodoList((prevTodoList) =>
+        prevTodoList.map((todo) => (todo.id === id ? originalTodo : todo))
+      );
     }
   }
   function handleAddTodo(title) {
-    const newTodo = { title, id: Date.now(), isCompleted: false };
+    if (!title || title.trim() === "") {
+      setErrorMessage("Todo title cannot be empty.");
+      return;
+    }
 
-    setTodoList([...todoList, newTodo]);
+    const newTodo = { title, id: Date.now(), isCompleted: false };
+    addTodo(newTodo);
   }
 
   async function updateTodo(editedTodo) {
@@ -147,6 +159,17 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     };
+    setTodoList((prevTodoList) =>
+      prevTodoList.map((todo) =>
+        todo.id === editedTodo.id
+          ? {
+              ...todo,
+              title: editedTodo.title,
+              isCompleted: editedTodo.isCompleted,
+            }
+          : todo
+      )
+    );
 
     try {
       setIsSaving(true);
@@ -159,39 +182,46 @@ function App() {
         id: records[0].id,
         ...records[0].fields,
       };
+
+      const updatedTodoList = todoList.map((todo) =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      );
+      setTodoList(updatedTodoList);
+      return updateTodo;
     } catch (error) {
       console.log("Error updating todo:", error);
       setErrorMessage(`${error.message}. Reverting todo...`);
-      const revertedTodos = [...todoList, originalTodo];
-      setTodoList([...revertedTodos]);
+      const revertedTodoList = todoList.map((todo) =>
+        todo.id === originalTodo.id ? originalTodo : todo
+      );
+      setTodoList([revertedTodoList]);
     } finally {
       setIsSaving(false);
     }
   }
 
+  const dismissError = () => {
+    setErrorMessage("");
+  };
 
-const dismissError = () => {
-  setErrorMessage("");
-};
-
-return (
-  <div>
-    <h1>My Todos</h1>
-    <TodoForm onAddTodo={handleAddTodo} />
-    <TodoList
-      todoList={todoList}
-      onCompleteTodo={completeTodo}
-      onUpdateTodo={updateTodo}
-      isLoading={isLoading}
-    />
-    {errorMessage && (
-      <>
-        <hr />
-        <p>{errorMessage}</p>
-        <button onClick={dismissError}>Dismiss</button>
-      </>
-    )}
-  </div>
-);
-};
+  return (
+    <div>
+      <h1>My Todos</h1>
+      <TodoForm onAddTodo={addTodo} />
+      <TodoList
+        todoList={todoList}
+        onCompleteTodo={completeTodo}
+        onUpdateTodo={updateTodo}
+        isLoading={isLoading}
+      />
+      {errorMessage && (
+        <>
+          <hr />
+          <p>{errorMessage}</p>
+          <button onClick={dismissError}>Dismiss</button>
+        </>
+      )}
+    </div>
+  );
+}
 export default App;

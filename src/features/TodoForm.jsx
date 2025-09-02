@@ -7,11 +7,13 @@ function TodoForm({ onAddTodo }) {
   const todoTitleInput = useRef("");
   const [isSaving, setIsSaving] = useState(false);
 
-  function handleAddTodo(event) {
+  async function handleAddTodo(event) {
     event.preventDefault();
-    onAddTodo(workingTodoTitle); 
+    setIsSaving(true);
+    await onAddTodo({ title: workingTodoTitle, isCompleted:false }); 
     setWorkingTodo("");
     todoTitleInput.current.focus();
+    setIsSaving(false);
   }
   return (
     <form onSubmit={handleAddTodo}>
