@@ -156,7 +156,7 @@ function App() {
     };
     const options = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { Authorization: token, "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     };
     setTodoList((prevTodoList) =>
@@ -187,14 +187,13 @@ function App() {
         todo.id === updatedTodo.id ? updatedTodo : todo
       );
       setTodoList(updatedTodoList);
-      return updateTodo;
     } catch (error) {
       console.log("Error updating todo:", error);
       setErrorMessage(`${error.message}. Reverting todo...`);
       const revertedTodoList = todoList.map((todo) =>
         todo.id === originalTodo.id ? originalTodo : todo
       );
-      setTodoList([revertedTodoList]);
+      setTodoList(revertedTodoList);
     } finally {
       setIsSaving(false);
     }
