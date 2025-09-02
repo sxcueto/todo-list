@@ -31,7 +31,7 @@ function App() {
         const fetchedTodos = records.map((record) => {
           return {
             id: record.id,
-            ...record.fields,
+            title: record.fields.title,
             isCompleted: record.fields.isCompleted || false,
           };
         });
@@ -68,12 +68,14 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(url, options);
-      if (!resp.ok) throw new Error();
+      const errorDetails = await resp.text();
+      if (!resp.ok) throw new Error(`HTTP error! status:${resp.status}, details: ${errorDetails}`);
 
       const { records } = await resp.json();
       const savedTodos = {
         id: records[0].id,
-        ...records[0].fields,
+        title: records[0].fields,
+        isCompleted: records[0].fields.isCompleted,
       };
       console.log(records);
       console.log(savedTodos);
