@@ -2,16 +2,16 @@ import { useRef } from "react";
 import { useState } from "react";
 import TextInputWithLabel from "../shared/TextInputWithLabel";
 
-function TodoForm({ onAddTodo }) {
-  const [workingTodoTitle, setWorkingTodo] = useState("");
+function TodoForm({ onAddTodo, isSaving }) {
+  const [workingTodoTitle, setWorkingTodoTitle] = useState("");
   const todoTitleInput = useRef("");
-  const [isSaving, setIsSaving] = useState(false);
+  const [setIsSaving] = useState(false);
 
   async function handleAddTodo(event) {
     event.preventDefault();
     setIsSaving(true);
-    await onAddTodo({ title: workingTodoTitle, isCompleted:false }); 
-    setWorkingTodo("");
+    await onAddTodo({ title: workingTodoTitle, isCompleted: false });
+    setWorkingTodoTitle("");
     todoTitleInput.current.focus();
     setIsSaving(false);
   }
@@ -20,7 +20,7 @@ function TodoForm({ onAddTodo }) {
       <TextInputWithLabel
         ref={todoTitleInput}
         value={workingTodoTitle}
-        onChange={(event) => setWorkingTodo(event.target.value)}
+        onChange={(event) => setWorkingTodoTitle(event.target.value)}
         elementId={"todoTitle"}
         labelText="Todo"
       />
