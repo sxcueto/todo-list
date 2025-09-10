@@ -97,8 +97,8 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        url,
-        // encodeUrl({ sortDirection, sortField, queryString }), //use url?
+        
+        encodeUrl({ sortField, sortDirection, queryString }), 
         options
       );
       const errorDetails = await resp.text();
@@ -159,7 +159,7 @@ function App() {
     );
 
     try {
-      const resp = await fetch(encodeUrl, options);
+      const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options);
       if (!resp.ok) throw new Error();
     } catch (error) {
       console.log("Error completing todo:", error);
@@ -206,7 +206,7 @@ function App() {
 
     try {
       setIsSaving(true);
-      const resp = await fetch(encodeUrl, options);
+      const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options);
       if (!resp.ok) throw new Error();
 
       const { records } = await resp.json();
