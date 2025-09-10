@@ -7,7 +7,13 @@ ref,
 value
 })
 {
-
+// import { forwardRef } from "react";
+// const TextInputWithLabel= forwardRef(({
+//     elementId,
+//     label,
+//     onChange,
+//     value}
+// , ref) => {
 return(
     <>
 <label htmlFor={elementId}>{label}</label>
