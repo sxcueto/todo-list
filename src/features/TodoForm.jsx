@@ -8,7 +8,7 @@ function TodoForm({ onAddTodo, isSaving }) {
   function handleAddTodo(event) {
     event.preventDefault();
     onAddTodo({ 
-      workingTodoTitle, 
+      title: workingTodoTitle, 
       isCompleted: false 
     });
     setWorkingTodoTitle("");

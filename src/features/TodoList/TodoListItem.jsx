@@ -3,7 +3,7 @@ import TextInputWithLabel from "../../shared/TextInputWithLabel";
 
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [workingTitle, setWorkingTitle] = useState(todo.title);
+  const [workingTitle, setWorkingTitle] = useState(todo.title || "Untitled");
 
   useEffect(() => {
     setWorkingTitle(todo.title);
@@ -32,7 +32,6 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
         {isEditing ? (
           <>
             <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
-
             <button type="button" onClick={handleCancel}>
               Cancel
             </button>
@@ -50,7 +49,7 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
                 onChange={() => onCompleteTodo(todo.id)}
               />
             </label>
-            <span onClick={() => setIsEditing(true)}>{todo.title}</span>
+            <span onClick={() => setIsEditing(true)}>{todo.title || "Untitled"}</span>
           </>
         )}
       </form>

@@ -102,7 +102,7 @@ function App() {
 
       const savedTodo = {
         id: records[0].id,
-        title: records[0].fields,
+        title: records[0].fields.title,
         isCompleted: records[0].fields.isCompleted,
       };
 
