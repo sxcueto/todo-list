@@ -4,11 +4,6 @@ import TodoList from "./features/TodoList/TodoList";
 import TodoForm from "./features/TodoForm";
 import TodosViewForm from "./features/TodosViewForm";
 
-const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${
-  import.meta.env.VITE_TABLE_NAME
-}`;
-const token = `Bearer ${import.meta.env.VITE_PAT}`;
-
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,27 +12,31 @@ function App() {
   const [sortField, setSortField] = useState("createdTime");
   const [sortDirection, setSortDirection] = useState("desc");
   const [queryString, setQueryString] = useState("");
-  const encodeUrl = useCallback(({ sortField, sortDirection, queryString })=>{ let searchQuery = "";
-  let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
 
-  if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
-  }
-  return `${url}?${sortQuery}${searchQuery}`;},[])
+  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${
+    import.meta.env.VITE_TABLE_NAME
+  }`;
+  const token = `Bearer ${import.meta.env.VITE_PAT}`;
+
+  const encodeUrl = useCallback(() => {
+    let searchQuery = "";
+    let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+    if (queryString) {
+      searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
+    }
+    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
+  }, [url,sortField, sortDirection, queryString]);
 
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
       const options = {
         method: "GET",
-        headers: { Authorization: token },
+        headers: { Authorization: token, "Content-Type": "application/json" },
       };
 
       try {
-        const resp = await fetch(
-          encodeUrl(),
-          options
-        );
+        const resp = await fetch(encodeUrl(), options);
 
         if (!resp.ok) {
           throw new Error(resp.message);
@@ -63,13 +62,7 @@ function App() {
     };
 
     fetchTodos();
-  });
-  // if (token) {
-  //   fetchTodos();
-  // } else {
-  //   setIsLoading(false);
-  // }
-  // [sortDirection, sortField, queryString];
+  }, [token, encodeUrl]);
 
   const addTodo = async (newTodo) => {
     const payload = {
@@ -98,22 +91,22 @@ function App() {
         encodeUrl(),
         options
       );
-      const errorDetails = await resp.text();
-      if (!resp.ok)
+      if (!resp.ok) {
+        const errorDetails = await resp.text();
         throw new Error(
           `HTTP error! status:${resp.status}, details: ${errorDetails}`
         );
+      }
 
       const { records } = await resp.json();
-      const savedTodos = {
+
+      const savedTodo = {
         id: records[0].id,
         title: records[0].fields,
         isCompleted: records[0].fields.isCompleted,
       };
-      console.log(records);
-      console.log(savedTodos);
 
-      setTodoList((prevTodoList) => [...prevTodoList, savedTodos]);
+      setTodoList([...todoList, savedTodo]);
     } catch (error) {
       console.log("Error saving todo:", error);
       setErrorMessage(error.message);
@@ -121,6 +114,7 @@ function App() {
       setIsSaving(false);
     }
   };
+
   async function completeTodo(id) {
     const originalTodo = todoList.find((todo) => todo.id === id);
     if (!originalTodo) {
@@ -156,10 +150,7 @@ function App() {
     );
 
     try {
-      const resp = await fetch(
-        encodeUrl(),
-        options
-      );
+      const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) throw new Error();
     } catch (error) {
       console.log("Error completing todo:", error);
@@ -168,10 +159,6 @@ function App() {
         prevTodoList.map((todo) => (todo.id === id ? originalTodo : todo))
       );
     }
-  }
-  function handleAddTodo(title) {
-    const newTodo = { title, isCompleted: false };
-    addTodo(newTodo); //this line
   }
 
   async function updateTodo(editedTodo) {
@@ -206,10 +193,7 @@ function App() {
 
     try {
       setIsSaving(true);
-      const resp = await fetch(
-        encodeUrl(),
-        options
-      );
+      const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) throw new Error();
 
       const { records } = await resp.json();
@@ -242,7 +226,7 @@ function App() {
   return (
     <div>
       <h1>My Todos</h1>
-      <TodoForm onAddTodo={handleAddTodo} isSaving={isSaving} />
+      <TodoForm onAddTodo={addTodo} isSaving={isSaving} />
       <TodoList
         todoList={todoList}
         onCompleteTodo={completeTodo}
