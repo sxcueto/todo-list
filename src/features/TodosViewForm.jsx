@@ -9,9 +9,10 @@ function TodosViewForm({
   setQueryString,
 }) {
   const [localQueryString, setLocalQueryString] = useState(queryString);
+
   function preventRefresh(event) {
     event.preventDefault();
-  }
+  };
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -31,10 +32,10 @@ function TodosViewForm({
             type="text"
             value={queryString}
             onChange={(e) => {
-              setLocalQueryString(e.target.value);
+              setQueryString(e.target.value);
             }}
           />
-          <button type="button" onClick={() => setLocalQueryString("")}>
+          <button type="button" onClick={() => setQueryString("")}>
             Clear
           </button>
         </div>
