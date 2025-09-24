@@ -3,6 +3,7 @@ import "./App.css";
 import TodoList from "./features/TodoList/TodoList";
 import TodoForm from "./features/TodoForm";
 import TodosViewForm from "./features/TodosViewForm";
+import styles from './App.module.css';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -224,8 +225,8 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>My Todos</h1>
+    <div className={styles.appContainer}>
+      <h1 className={styles.heading}>My Todos</h1>
       <TodoForm onAddTodo={addTodo} isSaving={isSaving} />
       <TodoList
         todoList={todoList}
@@ -242,13 +243,15 @@ function App() {
         queryString={queryString}
         setQueryString={setQueryString}
       />
+      
       {errorMessage && (
         <>
           <hr />
-          <p>{errorMessage}</p>
+          <p className={styles.errorMessage}>{errorMessage}</p>
           <button onClick={dismissError}>Dismiss</button>
         </>
       )}
+      
     </div>
   );
 }

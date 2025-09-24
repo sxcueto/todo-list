@@ -1,4 +1,23 @@
 import { useEffect, useState } from "react";
+import styled from 'styled-components';
+
+
+
+const StyledForm = styled.form`
+  padding: 1.5rem;
+  
+  `;
+
+const StyledLabel = styled.label`
+  padding-right: 0.4rem;
+  `;
+const StyledDiv = styled.div`
+padding-bottom: 0.7rem;
+`;
+
+const StyledInput = styled.input`
+    padding: .2rem;
+  `;
 
 function TodosViewForm({
   sortDirection,
@@ -25,10 +44,10 @@ function TodosViewForm({
 
   return (
     <>
-      <form onSubmit={(event) => preventRefresh(event)}>
-        <div>
-          <label>Search todos</label>
-          <input
+      <StyledForm onSubmit={(event) => preventRefresh(event)}>
+        <StyledDiv>
+          <StyledLabel>Search todos</StyledLabel>
+          <StyledInput
             type="text"
             value={queryString}
             onChange={(e) => {
@@ -38,10 +57,10 @@ function TodosViewForm({
           <button type="button" onClick={() => setQueryString("")}>
             Clear
           </button>
-        </div>
+        </StyledDiv>
 
         <div>
-          <label>Sort by</label>
+          <StyledLabel>Sort by</StyledLabel>
           <select
             onChange={(event) => {
               setSortField(event.target.value);
@@ -51,7 +70,7 @@ function TodosViewForm({
             <option value="title">Title</option>
             <option value="createdTime">Time added</option>
           </select>
-          <label>Direction</label>
+          <StyledLabel>Direction</StyledLabel>
           <select
             onChange={(event) => {
               setSortDirection(event.target.value);
@@ -62,7 +81,7 @@ function TodosViewForm({
             <option value="desc">Descending</option>
           </select>
         </div>
-      </form>
+      </StyledForm>
     </>
   );
 }
