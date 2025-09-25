@@ -1,1 +1,31 @@
+/* styling for the app container */
+h1,
+p,
+label,
+input {
+  font-family: Arial, Helvetica, sans-serif;
+}
+body {
+  background-color: #add8e6;
+}
 
+/* styling for global buttons and selects */
+button,
+select {
+  font-family: "Courier New", Courier, monospace;
+  margin: auto 0.4em;
+  padding: 0.2em;
+  background-color: #A5668B;
+  color: white;
+}
+
+
+
+/* styling for global text inputs */
+input {
+  border: 1.5px solid #0e103d;
+  border-radius: 8px;
+  /* width: 150px; */
+  /* padding: 4px; */
+  /* margin: auto 5px; */
+}

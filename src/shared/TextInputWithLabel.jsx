@@ -1,3 +1,11 @@
+import styled from 'styled-components';
+
+
+const StyledInput = styled.input`
+    padding: .2rem;
+  `;
+
+
 
 function TextInputWithLabel({
 elementId,
@@ -7,17 +15,11 @@ ref,
 value
 })
 {
-// import { forwardRef } from "react";
-// const TextInputWithLabel= forwardRef(({
-//     elementId,
-//     label,
-//     onChange,
-//     value}
-// , ref) => {
+
 return(
     <>
 <label htmlFor={elementId}>{label}</label>
-<input
+<StyledInput
     type="text"
     id={elementId}
     ref={ref}
