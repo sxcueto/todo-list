@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import styled from 'styled-components';
-
-
+import styled from "styled-components";
 
 const StyledForm = styled.form`
   padding: 1.5rem;
-  
-  `;
+`;
 
 const StyledLabel = styled.label`
   padding-right: 0.4rem;
-  `;
+`;
 const StyledDiv = styled.div`
-padding-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
 `;
 
 const StyledInput = styled.input`
-    padding: .2rem;
-  `;
+  padding: 0.2rem;
+`;
 
 function TodosViewForm({
   sortDirection,
@@ -31,7 +28,7 @@ function TodosViewForm({
 
   function preventRefresh(event) {
     event.preventDefault();
-  };
+  }
 
   useEffect(() => {
     const debounce = setTimeout(() => {

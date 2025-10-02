@@ -15,11 +15,9 @@ select {
   font-family: "Courier New", Courier, monospace;
   margin: auto 0.4em;
   padding: 0.2em;
-  background-color: #A5668B;
+  background-color: #a5668b;
   color: white;
 }
-
-
 
 /* styling for global text inputs */
 input {
