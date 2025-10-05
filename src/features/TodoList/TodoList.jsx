@@ -9,8 +9,8 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
   const itemsPerPage = 15;
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const indexOfFirstTodo = itemsPerPage * (currentPage - 1);
-  const totalPages = Math.ceil(todoList.length / itemsPerPage);
   const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
+  const totalPages = Math.ceil(filteredTodoList.length / itemsPerPage);
   const currentTodos = filteredTodoList.slice(indexOfFirstTodo, indexOfFirstTodo + itemsPerPage);
 
   const handlePreviousPage = () => {

@@ -117,19 +117,18 @@ function App() {
     }
   };
 
-  async function completeTodo(originalTodo) {
+  async function completeTodo(id, title) {
     const payload = {
       records: [
         {
-          id: originalTodo.id,
+          id: id,
           fields: {
-            title: originalTodo.title,
+            title: title,
             isCompleted: true,
           },
         },
       ],
     };
-
     const options = {
       method: "PATCH",
       headers: {
@@ -138,13 +137,20 @@ function App() {
       },
       body: JSON.stringify(payload),
     };
-    dispatch({ type: todoActions.completeTodo, id: originalTodo.id });
+    dispatch({ type: todoActions.completeTodo, id: id });
 
     try {
       const resp = await fetch(encodeUrl(), options);
-      if (!resp.ok) throw new Error("Failed to update todo");
+      if (!resp.ok) {
+        const errorData = await resp.json();
+
+        throw new Error(
+          `Failed to update todo: ${errorData.error.message || "Unknown error"}`
+        );
+      }
+      dispatch({ type: todoActions.completeTodo, id: id, isCompleted: true });
     } catch (error) {
-      dispatch({ type: todoActions.revertTodo, originalTodo });
+      dispatch({ type: todoActions.revertTodo, originalTodo: { id, title } });
       dispatch({
         type: todoActions.setLoadError,
         error: { message: error.message },
