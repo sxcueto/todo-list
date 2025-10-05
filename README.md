@@ -1,5 +1,5 @@
 
-This is a basic to-do list called My Todos. It is built with React + Vite and it features chores that I need to do.
+This is a basic to-do list called My Todos. It is built with React + Vite.
 
 How to install and run:
 
