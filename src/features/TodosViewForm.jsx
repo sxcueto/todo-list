@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+
+//styling for form w/ search input, clear button, and sort buttons
 const StyledForm = styled.form`
   padding: 1.5rem;
 `;

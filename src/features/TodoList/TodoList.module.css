@@ -1,6 +1,18 @@
 
+/* styling for todo list */
 
     .unorderedList{
         list-style-type: none;
-        padding: 0;
+        padding: auto;
+        justify-content: center;
     }
+
+
+    .paginationControls{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0; 
+    }
+
+   

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+
+//styling for todo bar
 const StyledInput = styled.input`
   padding: 0.2rem;
 `;

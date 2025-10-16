@@ -96,7 +96,7 @@ function reducer(state = initialState, action) {
     }
 
     case actions.completeTodo: {
-      const originalTodo = state.todoList.map((todo) => {
+      const updatedTodoList = state.todoList.map((todo) => {
         if (todo.id === action.id) {
           return { ...todo, isCompleted: true };
         }
@@ -104,7 +104,7 @@ function reducer(state = initialState, action) {
       });
       return {
         ...state,
-        todoList: originalTodo,
+        todoList: updatedTodoList,
       };
     }
     case actions.revertTodo: {
